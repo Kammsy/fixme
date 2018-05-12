@@ -1,6 +1,12 @@
 package fixme.fixme2;
 
+import android.os.AsyncTask;
 import android.util.Log;
+
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public final class Tools {
     public static void sendEmail(final String message) {

@@ -3,4 +3,5 @@
     <string name="edit_message">Opisz usterkę</string>
     <string name="button_send">Wyślij</string>
     <string name="edit_place">Wpisz numer sali</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

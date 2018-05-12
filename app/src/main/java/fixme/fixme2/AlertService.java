@@ -1,11 +1,13 @@
 package fixme.fixme2;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,6 +36,9 @@ public class AlertService extends Service {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
 // notificationId is a unique int for each notification that you must define
+        Notification not = mBuilder.build();
+        not.defaults |= Notification.DEFAULT_SOUND;
+        not.defaults |= Notification.DEFAULT_VIBRATE;
         notificationManager.notify(10, mBuilder.build());
     }
     private void evacuation() {
@@ -48,14 +53,14 @@ public class AlertService extends Service {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Response is: "+ response);
+                        Log.d("notyfikacje","Response is: "+ response);
                         if(response.equals("uciekać"))
                             showNotification();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("That didn't work!");
+                System.out.println("Nie ma połączenia z internetem!");
             }
         });
 
