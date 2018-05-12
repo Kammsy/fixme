@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">FixMe2</string>
+    <string name="edit_message">Opisz usterkę</string>
+    <string name="button_send">Wyślij</string>
+    <string name="edit_place">Wpisz numer sali</string>
+</resources>
