@@ -4,4 +4,11 @@
     <string name="button_send">Wyślij</string>
     <string name="edit_place">Wpisz numer sali</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="choose_tag">Wybierz tag</string>
+    <string-array name="tags">
+        <item>Zepsuty przedmiot</item>
+        <item>Hydraulika</item>
+        <item>Ogień</item>
+        <item>Wybita szyba</item>
+    </string-array>
 </resources>
