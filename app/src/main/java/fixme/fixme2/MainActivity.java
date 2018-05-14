@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         startService(new Intent(this, AlertService.class));
 
-        Spinner spinner = (Spinner) findViewById(R.id.tags);
+        Spinner spinner = findViewById(R.id.tags);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
