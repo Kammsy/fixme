@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="fixme.fixme2">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,13 +18,7 @@
         android:theme="@style/AppTheme">
         <service android:name=".AlertService" />
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".DisplayMessageActivity"
             android:parentActivityName=".MainActivity">
@@ -34,13 +29,17 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".DisplayNotificationsActivity"
-            android:label="DisplayNotificationsActivity"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:label="DisplayNotificationsActivity" />
+        <activity android:name=".Main3Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".TabelkaActivity"></activity>
     </application>
 
 </manifest>

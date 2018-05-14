@@ -11,4 +11,5 @@
         <item>Ogień</item>
         <item>Wybita szyba</item>
     </string-array>
+    <string name="nr_sali">Wpisz nr sali</string>
 </resources>
