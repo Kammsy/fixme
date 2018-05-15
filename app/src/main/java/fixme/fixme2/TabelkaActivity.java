@@ -38,20 +38,36 @@ public class TabelkaActivity extends AppCompatActivity {
         System.out.println("Link = " + link);
         new HttpAsyncTask().execute(link);
     }
-    private void parsujJSON(String text) {
-        //dodać parsowanie JSONa
-        String[] tablica = new String[100];
-        for(int i = 0; i < 100; ++i) {
-            tablica[i] = "CHUJ " + i + "\ntagi: ";
-            for(int j = 0; j < 30; ++j)
-                tablica[i] += "CIPA ";
-            tablica[i] += "\n";
-            for(int j = 0; j < 40; ++j)
-                tablica[i] += " RUCHANIE";
+    private static String wiersz(JSONObject obj) throws JSONException {
+        String res = obj.getString("title");
+        res += "\nlokalizacja: " + obj.getString("location");
+        res += "\ntagi: ";
+        JSONArray ja = obj.getJSONArray("tags");
+        for (int i = 0; i < ja.length(); ++i) {
+            res += ja.getString(i);
+            if (i + 1 == ja.length())
+                res += "\n";
+            else
+                res += ", ";
         }
-        ListView listview = (ListView) findViewById(R.id.list_view);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tablica);
-        listview.setAdapter(adapter);
+        res += obj.getString("description");
+        return res;
+    }
+    private void parsujJSON(String text) {
+        //dodać parsowanie JSON
+        try {
+            JSONArray ja = new JSONArray(text);
+            String[] tablica = new String[ja.length()];
+            for(int i = 0; i < tablica.length; ++i)
+                tablica[i] = wiersz(ja.getJSONObject(i));
+
+            ListView listview = (ListView) findViewById(R.id.list_view);
+            ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tablica);
+            listview.setAdapter(adapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
         private String convertInputStreamToString(InputStream inputStream) throws IOException {

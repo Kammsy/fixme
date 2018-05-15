@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner spinner = findViewById(R.id.tags);
         spinner.setOnItemSelectedListener(this);
 
-        // tutaj ląduje link do tagów
-        new HttpAsyncTask().execute("http://students.mimuw.edu.pl/~lk385775/tagi.get");
+        new HttpAsyncTask().execute(Constant.API_TAGS);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -110,12 +109,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra(EXTRA_MESSAGE, message);
         Tools.sendEmail(message);
         startActivity(intent);
-
+/*
         JSONObject obj = new JSONObject();
         obj.put("Miejsce", editText.getText().toString());
         obj.put("Opis", editText2.getText().toString());
         obj.put("Tag", chosenTag);
-        Log.d("Json", obj.toString());
+        Log.d("Json", obj.toString()); */
 
     }
     private class HttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -158,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         @Override
         protected String doInBackground(String... urls) {
-
+            System.out.println("Odbieram z adresu " + urls[0]);
             return GET(urls[0]);
         }
         // onPostExecute displays the results of the AsyncTask.
@@ -167,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             //Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
             System.out.println("Odebrano " + result);
             try {
-                JSONObject json = new JSONObject(result);
-                JSONArray ja = json.getJSONArray("tagi");
+                JSONArray ja = new JSONArray(result);
+
                 String[] tablica = new String[ja.length()];
                 for(int i = 0; i < ja.length(); ++i)
                     tablica[i] = ja.get(i).toString();

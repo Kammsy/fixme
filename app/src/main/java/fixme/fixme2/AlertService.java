@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class AlertService extends Service {
+    private String bylo = "fdssh";
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -34,19 +36,20 @@ public class AlertService extends Service {
                 .setContentText("Pan dziekan Strzelecki ogłasza EWAKUACJĘ!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
+        mBuilder.setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
+        //mBuilder.setVibrate(Settings.System)
 // notificationId is a unique int for each notification that you must define
         Notification not = mBuilder.build();
-        not.defaults |= Notification.DEFAULT_SOUND;
-        not.defaults |= Notification.DEFAULT_VIBRATE;
-        notificationManager.notify(10, mBuilder.build());
+        //not.defaults |= Notification.DEFAULT;
+        //not.defaults |= Notification.DEFAULT_VIBRATE;
+        notificationManager.notify(10, not);
     }
     private void evacuation() {
        // return true;
 
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://students.mimuw.edu.pl:9000/api/hello";
+        String url = Constant.API_ALERT;
 
 // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -54,8 +57,10 @@ public class AlertService extends Service {
                     @Override
                     public void onResponse(String response) {
                         Log.d("notyfikacje","Response is: "+ response);
-                        if(response.equals("uciekać"))
+                        if(!response.equals("ok") && !response.equals(bylo)) {
+                            bylo = response;
                             showNotification();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
