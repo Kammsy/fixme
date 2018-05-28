@@ -2,6 +2,7 @@ package fixme.fixme2;
 
 import android.annotation.SuppressLint;
 import android.app.LauncherActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -26,7 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class TabelkaActivity extends AppCompatActivity {
+public class TabelkaActivity extends AppCompatActivity implements GetResultable {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,16 @@ public class TabelkaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tabelka);
         Intent intent = getIntent();
         String link = intent.getStringExtra("link");
-        System.out.println("Link = " + link);
-        new HttpAsyncTask().execute(link);
+
+        new GETAsyncTask(this).execute(link);
+    }
+    private void showError() {
+        Context context = getApplicationContext();
+        CharSequence text = "Błąd! Sprawdź połączenie z internetem!";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
     private static String wiersz(JSONObject obj) throws JSONException {
         String res = obj.getString("title");
@@ -53,8 +63,9 @@ public class TabelkaActivity extends AppCompatActivity {
         res += obj.getString("description");
         return res;
     }
+
+    // parsuje jsona i dodaje wiersze do tabelki
     private void parsujJSON(String text) {
-        //dodać parsowanie JSON
         try {
             JSONArray ja = new JSONArray(text);
             String[] tablica = new String[ja.length()];
@@ -66,58 +77,15 @@ public class TabelkaActivity extends AppCompatActivity {
             listview.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
+            showError();
         }
 
     }
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        private String convertInputStreamToString(InputStream inputStream) throws IOException {
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-            String line = "";
-            String result = "";
-            while((line = bufferedReader.readLine()) != null)
-                result += line;
 
-            inputStream.close();
-            return result;
+    @Override
+    public void ProcessResults(String res) {
 
-        }
-        public String GET(String url){
-            InputStream inputStream = null;
-            String result = "";
-            try {
-
-                // create HttpClient
-                HttpClient httpclient = new DefaultHttpClient();
-
-                // make GET request to the given URL
-                HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-
-                // receive response as inputStream
-                inputStream = httpResponse.getEntity().getContent();
-
-                // convert inputstream to string
-                if(inputStream != null)
-                    result = convertInputStreamToString(inputStream);
-                else
-                    result = "Did not work!";
-
-            } catch (Exception e) {
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-
-            return result;
-        }
-        @Override
-        protected String doInBackground(String... urls) {
-
-            return GET(urls[0]);
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            //Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-            System.out.println("Odebrano " + result);
-            parsujJSON(result);
-        }
+        parsujJSON(res);
     }
+
 }

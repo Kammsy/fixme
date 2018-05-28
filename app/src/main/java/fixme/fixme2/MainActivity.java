@@ -16,7 +16,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,12 +33,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, GetResultable {
 
     public static final String ZGŁOSZENIE1 = "Zgłoszono usterkę.\n\nMiejsce usterki: ";
     public static final String ZGŁOSZENIE2 = "\n\nOpis usterki: ";
@@ -45,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner spinner = findViewById(R.id.tags);
         spinner.setOnItemSelectedListener(this);
 
-        new HttpAsyncTask().execute(Constant.API_TAGS);
+        new GETAsyncTask(this).execute(Constant.API_TAGS);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -67,13 +79,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-//        Notification.Builder mBuilder = new Notification.Builder(MainActivity.this)
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setContentTitle("Ewakuacja")
-//                .setContentText("Pan dziekan Strzelecki ogłasza EWAKUACJĘ!")
-//                .setPriority(Notification.PRIORITY_HIGH);
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-// notificationId is a unique int for each notification that you must define
         notificationManager.notify(10, mBuilder.build());
     }
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -107,8 +112,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         EditText editText2 = (EditText) findViewById(R.id.editText2);
         String message = ZGŁOSZENIE1 + editText.getText().toString() + ZGŁOSZENIE2 + editText2.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
-        Tools.sendEmail(message);
+        //Tools.sendEmail(message);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("title", "DUPADUPA");
+        map.put("description", editText2.getText().toString());
+        map.put("location", editText.getText().toString());
+        map.put("tags[]", chosenTag);
+
+        new Thread(new SendPOST(Constant.API_SEND_REPORT, map)).start();
+
         startActivity(intent);
+
 /*
         JSONObject obj = new JSONObject();
         obj.put("Miejsce", editText.getText().toString());
@@ -117,67 +132,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.d("Json", obj.toString()); */
 
     }
-    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
-        private String convertInputStreamToString(InputStream inputStream) throws IOException {
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-            String line = "";
-            String result = "";
-            while((line = bufferedReader.readLine()) != null)
-                result += line;
 
-            inputStream.close();
-            return result;
 
-        }
-        public String GET(String url){
-            InputStream inputStream = null;
-            String result = "";
-            try {
 
-                // create HttpClient
-                HttpClient httpclient = new DefaultHttpClient();
+    @Override
+    public void ProcessResults(String res) {
+        System.out.println("Odebrano " + res);
+        try {
+            JSONArray ja = new JSONArray(res);
 
-                // make GET request to the given URL
-                HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-
-                // receive response as inputStream
-                inputStream = httpResponse.getEntity().getContent();
-
-                // convert inputstream to string
-                if(inputStream != null)
-                    result = convertInputStreamToString(inputStream);
-                else
-                    result = "Did not work!";
-
-            } catch (Exception e) {
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-
-            return result;
-        }
-        @Override
-        protected String doInBackground(String... urls) {
-            System.out.println("Odbieram z adresu " + urls[0]);
-            return GET(urls[0]);
-        }
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(String result) {
-            //Toast.makeText(getBaseContext(), "Received!", Toast.LENGTH_LONG).show();
-            System.out.println("Odebrano " + result);
-            try {
-                JSONArray ja = new JSONArray(result);
-
-                String[] tablica = new String[ja.length()];
-                for(int i = 0; i < ja.length(); ++i)
-                    tablica[i] = ja.get(i).toString();
-                ustawTagi(tablica);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            String[] tablica = new String[ja.length()];
+            for(int i = 0; i < ja.length(); ++i)
+                tablica[i] = ja.get(i).toString();
+            ustawTagi(tablica);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
+
 
 
 

@@ -11,69 +11,103 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginBottom="187dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="188dp"
         android:onClick="wysylajZgloszenia"
-        android:text="Wysyłaj Zgłoszenia"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/wysy_aj_zg_oszenia"
+        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginStart="16dp"
         android:onClick="pokazTabelke"
-        android:text="Pokaż Ostatnie"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        android:text="@string/poka_ostatnie"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="38dp"
-        android:layout_marginStart="58dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginStart="16dp"
         android:onClick="pokazZTagiem"
-        android:text="Pokaż z tagiem"
+        android:text="@string/poka_z_tagiem"
         app:layout_constraintBottom_toBottomOf="@+id/spinner"
         app:layout_constraintEnd_toStartOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="136dp"
-        android:layout_height="43dp"
-        android:layout_marginBottom="127dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginTop="232dp"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="113dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="113dp"
         android:background="@android:drawable/btn_dropdown"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
+        app:layout_constraintBottom_toBottomOf="@+id/editText3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button5"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/button3" />
 
     <Button
         android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="105dp"
+        android:layout_marginBottom="34dp"
+        android:layout_marginStart="16dp"
         android:onClick="pokazWOkolicy"
-        android:text="Pokaż w okolicy"
+        android:text="@string/poka_w_okolicy"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/editText3" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editText3"
-        android:layout_width="242dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="44dp"
-        android:layout_marginStart="58dp"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="34dp"
         android:ems="10"
-        android:hint="nr sali"
+        android:hint="@string/nr_sali_hint"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button11"
+        app:layout_constraintStart_toStartOf="@+id/button10" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:onClick="loguj"
+        android:text="@string/zaloguj_si"
+        app:layout_constraintBottom_toBottomOf="@+id/button10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toTopOf="@+id/button10" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="rejestruj"
+        android:text="Rejestruj"
+        app:layout_constraintBottom_toTopOf="@+id/button11"
+        app:layout_constraintEnd_toEndOf="@+id/button11" />
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="3dp"
+        android:onClick="aktywuj"
+        android:text="Aktywuj konto"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="@+id/button3" />
 </android.support.constraint.ConstraintLayout>

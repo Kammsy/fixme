@@ -2,6 +2,7 @@ package fixme.fixme2;
 
 import android.app.Notification;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.provider.Settings;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,7 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class AlertService extends Service {
-    private String bylo = "fdssh";
+    private String bylo = "";
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -26,14 +28,14 @@ public class AlertService extends Service {
     }
     @Override
     public void onCreate() {
-        System.out.println("Stworzono usługę");
+
     }
     private void showNotification() {
         System.out.println("Próbuję pokazać powiadomienie");
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "dffs")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Ewakuacja")
-                .setContentText("Pan dziekan Strzelecki ogłasza EWAKUACJĘ!")
+                .setContentText("Ogłoszona została EWAKUACJA!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         mBuilder.setSound(Settings.System.DEFAULT_ALARM_ALERT_URI);
@@ -56,8 +58,8 @@ public class AlertService extends Service {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("notyfikacje","Response is: "+ response);
-                        if(!response.equals("ok") && !response.equals(bylo)) {
+                        //Log.d("notyfikacje","Response is: "+ response);
+                        if(!response.equals("no evacuation\n") && !response.equals(bylo)) {
                             bylo = response;
                             showNotification();
                         }
@@ -66,6 +68,12 @@ public class AlertService extends Service {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Nie ma połączenia z internetem!");
+                Context context = getApplicationContext();
+                CharSequence text = "Błąd! Sprawdź połączenie z internetem!";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                //toast.show();
             }
         });
 
