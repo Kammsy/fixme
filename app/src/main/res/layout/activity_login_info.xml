@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginInfoActivity"
+    tools:layout_editor_absoluteY="81dp">
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="38dp"
+        android:layout_marginTop="16dp"
+        android:onClick="loguj"
+        android:text="ZaLoguj"
+        app:layout_constraintBottom_toTopOf="@+id/button11"
+        app:layout_constraintEnd_toEndOf="@+id/button14"
+        app:layout_constraintStart_toStartOf="@+id/button11"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="176dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginStart="92dp"
+        android:onClick="wyloguj"
+        android:text="Wyloguj"
+        app:layout_constraintBottom_toTopOf="@+id/button13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button10" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="21dp"
+        android:onClick="aktywuj"
+        android:text="Aktywuj konto"
+        app:layout_constraintBottom_toTopOf="@+id/button14"
+        app:layout_constraintEnd_toEndOf="@+id/button11"
+        app:layout_constraintStart_toStartOf="@+id/button11"
+        app:layout_constraintTop_toBottomOf="@+id/button11" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="38dp"
+        android:onClick="rejestruj"
+        android:text="Zarejestruj"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/button13"
+        app:layout_constraintStart_toStartOf="@+id/button13"
+        app:layout_constraintTop_toBottomOf="@+id/button13" />
+</android.support.constraint.ConstraintLayout>

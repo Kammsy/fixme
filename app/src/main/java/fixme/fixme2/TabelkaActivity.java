@@ -38,8 +38,11 @@ public class TabelkaActivity extends AppCompatActivity implements GetResultable 
         Intent intent = getIntent();
         String link = intent.getStringExtra("link");
 
+        setTitle("Lista zgłoszeń");
+
         new GETAsyncTask(this).execute(link);
     }
+
     private void showError() {
         Context context = getApplicationContext();
         CharSequence text = "Błąd! Sprawdź połączenie z internetem!";
@@ -48,6 +51,7 @@ public class TabelkaActivity extends AppCompatActivity implements GetResultable 
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+
     private static String wiersz(JSONObject obj) throws JSONException {
         String res = obj.getString("title");
         res += "\nlokalizacja: " + obj.getString("location");

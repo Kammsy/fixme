@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner spinner = findViewById(R.id.tags);
         spinner.setOnItemSelectedListener(this);
 
+        setTitle("Wyślij zgłoszenie");
+
         new GETAsyncTask(this).execute(Constant.API_TAGS);
     }
 
@@ -122,7 +124,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         new Thread(new SendPOST(Constant.API_SEND_REPORT, map)).start();
 
-        startActivity(intent);
+        //startActivity(intent);
+        finish();
 
 /*
         JSONObject obj = new JSONObject();

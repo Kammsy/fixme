@@ -46,14 +46,13 @@
         </activity>
         <activity android:name=".TabelkaActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity
             android:name=".Main4Activity"
             android:label="@string/title_activity_main4"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RejestrujActivity" />
-        <activity android:name=".AktywujActivity"></activity>
+        <activity android:name=".AktywujActivity" />
+        <activity android:name=".LoginInfoActivity" />
+        <activity android:name=".AlertFilterActivity"></activity>
     </application>
 
 </manifest>

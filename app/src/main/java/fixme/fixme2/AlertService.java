@@ -62,6 +62,8 @@ public class AlertService extends Service {
                         if(!response.equals("no evacuation\n") && !response.equals(bylo)) {
                             bylo = response;
                             showNotification();
+                        } else {
+                            bylo = response;
                         }
                     }
                 }, new Response.ErrorListener() {

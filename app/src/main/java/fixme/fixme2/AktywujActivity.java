@@ -14,6 +14,7 @@ public class AktywujActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aktywuj);
+        setTitle("Aktywuj konto");
     }
     public void aktywuj(View view) {
         String email = ((EditText) findViewById(R.id.editText11)).getText().toString();

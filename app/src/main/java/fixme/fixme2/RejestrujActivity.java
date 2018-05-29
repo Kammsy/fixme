@@ -14,6 +14,7 @@ public class RejestrujActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rejestruj);
+        setTitle("Zarejestruj się");
     }
     public void rejestruj(View view) {
         String name = ((EditText) findViewById(R.id.editText6)).getText().toString();
